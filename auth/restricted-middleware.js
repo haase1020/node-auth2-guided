@@ -1,11 +1,13 @@
 const jwt = require("jsonwebtoken"); //<<<install this npm package
 
+const { jwtSecret } = require('../config/secrets.js');
+
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
+
   
-  const secret = process.env.JWT_SECRET || "is this secret, is it safe?";
   if (authorization) {
-    jwt.verify(authorization, secret, (err, decodedToken) => {
+    jwt.verify(authorization, jwtSecret, (err, decodedToken) => {
       if (err) {
         res.status(401).json({ message: "Invalid Credentials" });
       } else {
